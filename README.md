@@ -31,6 +31,7 @@ As for usage in Clojure:
   (:require [cognitect.aws.client.api :as aws]
             [theconsultingcto.session :as session]
             [theconsultingcto.session.cookies :as cookies]
+            [theconsultingcto.session.csrf-token :as csrf-token]
             [nuid.transit :as transit]))
 
 (def kms
@@ -45,9 +46,17 @@ As for usage in Clojure:
                   :body    (transit/write (merge body {:csrf-token csrf-token}))}]
     response))
 
-; When responding to a request, you'll want this let somewhere.
-(let [session (->> (cookies/from-headers headers)
+; When responding to a request, you'll want this let somewhere:
+(let [masked-csrf-token (get headers "x-csrf-token")
+      session (->> (cookies/from-headers headers)
                    (session/from-cookies @kms
                                          kms-session-key-id))]
-  (response 201 session {}))
+  (if (and masked-csrf-token
+           (csrf-token/valid? masked-csrf-token (:csrf-token session)))
+    (response 201 
+              session 
+              {})
+    (response 403
+              session
+              {:anomaly :invalid-csrf-token})))
 ```
