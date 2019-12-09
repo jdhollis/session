@@ -25,8 +25,8 @@
 (defn- unmasked
   [masked]
   (let [masked-bytes (Base64/decodeBase64 ^String masked)
-        otp (Arrays/copyOfRange ^byte-array masked-bytes ^int 0 ^int token-size)
-        token-bytes (Arrays/copyOfRange ^byte-array masked-bytes ^int token-size ^int (* 2 token-size))
+        otp (Arrays/copyOfRange masked-bytes 0 token-size)
+        token-bytes (Arrays/copyOfRange masked-bytes token-size (* 2 token-size))
         unmasked-bytes (byte-array (map bit-xor otp token-bytes))]
     (Base64/encodeBase64URLSafeString unmasked-bytes)))
 
