@@ -11,13 +11,13 @@ The library uses [KMS](https://aws.amazon.com/kms/) to handle encryption and dec
 Add these dependencies to your `deps.edn` (or `project.clj`):
 
 ```clojure
-{:deps {com.cognitect.aws/api        {:mvn/version "0.8.408"}
-        com.cognitect.aws/endpoints  {:mvn/version "1.1.11.682"}
-        com.cognitect.aws/kms        {:mvn/version "773.2.579.0"}
+{:deps {com.cognitect.aws/api        {:mvn/version "…"}
+        com.cognitect.aws/endpoints  {:mvn/version "…"}
+        com.cognitect.aws/kms        {:mvn/version "…"}
         com.theconsultingcto/session {:git/url "https://github.com/jdhollis/session.git"
-                                      :sha     ""}
+                                      :sha     "…"}
         nuid/transit                 {:git/url "https://github.com/nuid/transit.git"
-                                      :sha     "cddfa206358c2133f1ebc7090435f73c83130ac3"}}}
+                                      :sha     "…"}}}
 ```
 
 Strictly speaking, you don't need the `aws-api` dependencies, but I prefer to make transitive dependencies explicit if we're going to use them directly (in this case, we need to create a KMS client).
