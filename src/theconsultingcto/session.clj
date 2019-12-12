@@ -30,7 +30,7 @@
   [kms-client key-id contents]
   (let [encoded (transit/write contents)
         encrypted (encrypt kms-client key-id encoded)]
-    {:Set-Cookie (str "_session_id=" encrypted "; HttpOnly; Path=/; SameSite=None; Secure")}))
+    {"set-cookie" (str "_session_id=" encrypted "; HttpOnly; Path=/; SameSite=None; Secure")}))
 
 (defn with-refreshed-csrf-token
   [kms-client key-id session]
